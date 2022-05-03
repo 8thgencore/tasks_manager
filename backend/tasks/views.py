@@ -1,10 +1,15 @@
-from django.shortcuts import render
-from rest_framework import viewsets
-from tasks.models import Category
-
+from rest_framework import viewsets, permissions
 from tasks.serializers import CateforySerializer
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
     serializer_class = CateforySerializer
-    queryset = Category.objects.all()
+
+    def get_queryset(self):
+        return self.request.user.categories.all()
+
+    def perform_create(self, serializer):
+        return serializer.save(created_by=self.request.user)

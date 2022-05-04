@@ -5,27 +5,43 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Categories from "./pages/Categories";
 import CategoryDetails from "./pages/Categories/CategoryDetails";
 import { SnackbarProvider } from "notistack";
+import SignUp from "./pages/Auth/SignUp";
+import SignIn from "./pages/Auth/SignIn";
+import AuthContextProvider from "./contexts/AuthContextProvider";
+import RequireAuth from "./components/RequireAuth";
+import RequireNoAuth from "./components/RequireNoAuth";
+import BaseLayout from "./components/BaseLayout";
 
 export default function App() {
   return (
     <div>
       <CssBaseline />
-      <SnackbarProvider>
-        <Router>
-          <Box
-            sx={{
-              bgcolor: (theme) => theme.palette.background.default,
-              minHeight: "100vg",
-            }}
-          >
-            <Routes>
-              <Route path="/categories" element={<Categories />} />
-              <Route path="/categories/create" element={<CategoryDetails />} />
-              <Route path={`/categories/edit/:id`} element={<CategoryDetails />} />
-            </Routes>
-          </Box>
-        </Router>
-      </SnackbarProvider>
+      <AuthContextProvider>
+        <SnackbarProvider>
+          <Router>
+            <Box
+              sx={{
+                bgcolor: (theme) => theme.palette.background.default,
+                minHeight: "100vg",
+              }}
+            >
+              <Routes>
+                <Route element={<RequireAuth />}>
+                  <Route element={<BaseLayout />}>
+                    <Route path="/categories" element={<Categories />} />
+                    <Route path="/categories/create" element={<CategoryDetails />} />
+                    <Route path={`/categories/edit/:id`} element={<CategoryDetails />} />
+                  </Route>
+                </Route>
+                <Route element={<RequireNoAuth />}>
+                  <Route path="/auth/signup" element={<SignUp />} />
+                  <Route path="/auth/signin" element={<SignIn />} />
+                </Route>
+              </Routes>
+            </Box>
+          </Router>
+        </SnackbarProvider>
+      </AuthContextProvider>
     </div>
   );
 }

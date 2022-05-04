@@ -4,7 +4,7 @@ import { useSnackbar } from "notistack";
 
 import formatHttpApiError from "src/helpers/formatHttpApiError";
 import { LoadingOverlayResourceContext } from "src/components/LoadingOverlayResource";
-// import getCommonOptions from "src/helpers/axios/getCommonOptions";
+import getCommonOptions from "src/helpers/axios/getCommonOptions";
 
 export default function useRequestResource({ endpoint, resourceLabel }) {
   const [resourceList, setResourceList] = useState({
@@ -30,7 +30,7 @@ export default function useRequestResource({ endpoint, resourceLabel }) {
     ({ query = "" } = {}) => {
       setLoading(true);
       axios
-        .get(`/api/${endpoint}/${query}`)
+        .get(`/api/${endpoint}/${query}`, getCommonOptions())
         .then((res) => {
           setLoading(false);
           if (res.data.results) {
@@ -50,7 +50,7 @@ export default function useRequestResource({ endpoint, resourceLabel }) {
     (values, successCallback) => {
       setLoading(true);
       axios
-        .post(`/api/${endpoint}/`, values)
+        .post(`/api/${endpoint}/`, values, getCommonOptions())
         .then(() => {
           setLoading(false);
           enqueueSnackbar(`${resourceLabel} added`);
@@ -67,7 +67,7 @@ export default function useRequestResource({ endpoint, resourceLabel }) {
     (id) => {
       setLoading(true);
       axios
-        .get(`/api/${endpoint}/${id}/`)
+        .get(`/api/${endpoint}/${id}/`, getCommonOptions())
         .then((res) => {
           setLoading(false);
           const { data } = res;
@@ -82,7 +82,7 @@ export default function useRequestResource({ endpoint, resourceLabel }) {
     (id, values, successCallback) => {
       setLoading(true);
       axios
-        .patch(`/api/${endpoint}/${id}/`, values)
+        .patch(`/api/${endpoint}/${id}/`, values, getCommonOptions())
         .then((res) => {
           const updated = res.data;
           const newResourceList = {
@@ -110,7 +110,7 @@ export default function useRequestResource({ endpoint, resourceLabel }) {
     (id) => {
       setLoading(true);
       axios
-        .delete(`/api/${endpoint}/${id}/`)
+        .delete(`/api/${endpoint}/${id}/`, getCommonOptions())
         .then(() => {
           setLoading(false);
           enqueueSnackbar(`${resourceLabel} deleted`);

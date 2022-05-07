@@ -2,6 +2,7 @@ from rest_framework import viewsets, permissions, filters
 from tasks.serializers import CateforySerializer, TaskSerializer
 from rest_framework.pagination import PageNumberPagination
 from .models import Task
+from .permissions import TaskPermission
 
 
 class StandardResultSetPagination(PageNumberPagination):
@@ -11,9 +12,7 @@ class StandardResultSetPagination(PageNumberPagination):
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    permission_classes = [
-        permissions.IsAuthenticated,
-    ]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = CateforySerializer
 
     def get_queryset(self):
@@ -24,9 +23,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 class TaskViewSet(viewsets.ModelViewSet):
-    permission_classes = [
-        permissions.IsAuthenticated,
-    ]
+    permission_classes = [permissions.IsAuthenticated, TaskPermission]
     serializer_class = TaskSerializer
     pagination_class = StandardResultSetPagination
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]

@@ -26,9 +26,7 @@ class CustomUser(AbstractUser):
             "Required. 150 characters or fewer. Only alphanumeric characters are allowed."
         ),
         validators=[username_validator],
-        error_messages={
-            "unique": _("A user with that username already exists."),
-        },
+        error_messages={"unique": _("A user with that username already exists.")},
     )
 
     email = models.EmailField(blank=False, unique=True)

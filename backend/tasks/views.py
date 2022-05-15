@@ -1,8 +1,15 @@
-from rest_framework import viewsets, permissions, filters
-from tasks.serializers import CateforySerializer, TaskSerializer
+from django.db.models import Count
+from django.db.models.query import Q
+from rest_framework import filters, permissions, viewsets
 from rest_framework.pagination import PageNumberPagination
-from .models import Task
-from .permissions import TaskPermission
+from rest_framework.response import Response
+
+from tasks.models import Category, Task
+from tasks.permissions import TaskPermission
+from tasks.serializers import (CateforySerializer,
+                               DashboardTaskByCategorySerializer,
+                               DashboardTaskCompletionStatSerializer,
+                               TaskSerializer)
 
 
 class StandardResultSetPagination(PageNumberPagination):
@@ -51,3 +58,36 @@ class TaskViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
+
+
+class DashboardTaskCompletionStatViewSet(viewsets.ViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def list(self, request):
+        user = self.request.user
+        queryset = (
+            Task.objects.filter(created_by=user)
+            .values("completed")
+            .annotate(count=Count("completed"))
+        )
+        serializer = DashboardTaskCompletionStatSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
+
+class DashboardTaskByCategoryViewSet(viewsets.ViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def list(self, request):
+        user = self.request.user
+        task_filter = {}
+        completed = self.request.query_params.get("completed")
+        if completed is not None:
+            task_filter["tasks__completed"] = completed
+        queryset = Category.objects.filter(created_by=user).annotate(
+            count=Count("tasks", filter=Q(**task_filter))
+        )
+
+        serializer = DashboardTaskByCategorySerializer(queryset, many=True)
+
+        return Response(serializer.data)

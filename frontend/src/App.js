@@ -17,10 +17,11 @@ import Dashboard from "./pages/Dashboard";
 import "./index.css";
 import RequestResetPassword from "./pages/Auth/RequestResetPassword";
 import ResetPasswordConfirm from "./pages/Auth/ResetPasswordConfirm";
+import ThemeModeProvider from "./contexts/ThemeModeProvider";
 
 export default function App() {
   return (
-    <div>
+    <ThemeModeProvider>
       <CssBaseline />
       <AuthContextProvider>
         <SnackbarProvider>
@@ -57,7 +58,7 @@ export default function App() {
           </Router>
         </SnackbarProvider>
       </AuthContextProvider>
-    </div>
+    </ThemeModeProvider>
   );
 }
 

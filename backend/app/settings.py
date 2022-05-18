@@ -30,7 +30,7 @@ SECRET_KEY = env("SECRET_KEY", default="secret")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG", default=True)
 
-ALLOWED_HOSTS = env("ALLOWED_HOSTS", default=[])
+ALLOWED_HOSTS = env("ALLOWED_HOSTS", default="").split(" ")
 
 # Application definition
 
@@ -51,7 +51,6 @@ INSTALLED_APPS = [
 GOOGLE_RECAPTCHA_SECRET = env("GOOGLE_RECAPTCHA_SECRET", default="")
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
-# DEFAULT_FROM_EMAIL = "admin@localhost"
 DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="admin@localhost")
 
 ANYMAIL = {
@@ -65,6 +64,7 @@ DJOSER = {
     "SERIALIZERS": {
         "password_reset": "users.serializers.CustomSendEmailResetSerializer"
     },
+    "PASSWORD_RESET_CONFIRM_RETYPE": True,
 }
 
 MIDDLEWARE = [

@@ -14,6 +14,9 @@ class Category(models.Model):
         on_delete=models.CASCADE,
     )
 
+    class Meta:
+        verbose_name_plural = "categories"
+
 
 class Task(models.Model):
     class Priority(models.IntegerChoices):

@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,13 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-wwi^%wpr$p$)flqr@ygv9a&6idd@-^1ssqw#welnc8hur-k#4*"
+SECRET_KEY = env("SECRET_KEY", default="secret")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env("DEBUG", default=True)
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = env("ALLOWED_HOSTS", default=[]
 
 # Application definition
 
@@ -38,15 +42,29 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework.authtoken",
+    "anymail",
     "djoser",
     "users",
     "tasks",
 ]
 
+GOOGLE_RECAPTCHA_SECRET = env("GOOGLE_RECAPTCHA_SECRET", default="")
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
+# DEFAULT_FROM_EMAIL = "admin@localhost"
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="admin@localhost")
+
+ANYMAIL = {
+    "MAILGUN_API_KEY": env("MAILGUN_API_KEY", default=""),
+}
+
 AUTH_USER_MODEL = "users.CustomUser"
 
 DJOSER = {
     "PASSWORD_RESET_CONFIRM_URL": "auth/password-reset/confirm/{uid}/{token}",
+    "SERIALIZERS": {
+        "password_reset": "users.serializers.CustomSendEmailResetSerializer"
+    },
 }
 
 MIDDLEWARE = [

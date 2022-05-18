@@ -6,10 +6,12 @@ from rest_framework.response import Response
 
 from tasks.models import Category, Task
 from tasks.permissions import TaskPermission
-from tasks.serializers import (CateforySerializer,
-                               DashboardTaskByCategorySerializer,
-                               DashboardTaskCompletionStatSerializer,
-                               TaskSerializer)
+from tasks.serializers import (
+    CateforySerializer,
+    DashboardTaskByCategorySerializer,
+    DashboardTaskCompletionStatSerializer,
+    TaskSerializer,
+)
 
 
 class StandardResultSetPagination(PageNumberPagination):

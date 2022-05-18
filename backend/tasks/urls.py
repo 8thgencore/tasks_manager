@@ -1,7 +1,11 @@
 from rest_framework import routers
 
-from tasks.views import (CategoryViewSet, DashboardTaskByCategoryViewSet,
-                         DashboardTaskCompletionStatViewSet, TaskViewSet)
+from tasks.views import (
+    CategoryViewSet,
+    DashboardTaskByCategoryViewSet,
+    DashboardTaskCompletionStatViewSet,
+    TaskViewSet,
+)
 
 router = routers.DefaultRouter()
 router.register(r"api/categories", CategoryViewSet, "categories")

@@ -14,7 +14,9 @@ import BaseLayout from "./components/BaseLayout";
 import Tasks from "./pages/Tasks";
 import TaskDetails from "./pages/Tasks/TaskDetails";
 import Dashboard from "./pages/Dashboard";
-import "./index.css"
+import "./index.css";
+import RequestResetPassword from "./pages/Auth/RequestResetPassword";
+import ResetPasswordConfirm from "./pages/Auth/ResetPasswordConfirm";
 
 export default function App() {
   return (
@@ -44,6 +46,11 @@ export default function App() {
                 <Route element={<RequireNoAuth />}>
                   <Route path="/auth/signup" element={<SignUp />} />
                   <Route path="/auth/signin" element={<SignIn />} />
+                  <Route path="/auth/password-reset" element={<RequestResetPassword />} />
+                  <Route
+                    path="/auth/password-reset/confirm/:uid/:token"
+                    element={<ResetPasswordConfirm />}
+                  />
                 </Route>
               </Routes>
             </Box>

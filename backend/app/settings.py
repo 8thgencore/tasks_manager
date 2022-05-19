@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 import os
 from pathlib import Path
+import dj_database_url
 
 import environ
 
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
 ]
 
 GOOGLE_RECAPTCHA_SECRET = env("GOOGLE_RECAPTCHA_SECRET", default="")
+
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
 DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="admin@localhost")
@@ -77,6 +79,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 REST_FRAMEWORK = {
@@ -116,6 +119,11 @@ DATABASES = {
     }
 }
 
+IS_HEROKU = env("IS_HEROKU", default="False") == "True"
+if IS_HEROKU == True:
+    DATABASES["default"] = dj_database_url.parse(env("DATABASE_URL"))
+    ALLOWED_HOSTS = ["tasksmanagertest1.herokuapp.com"]
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -151,7 +159,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, "frontend/static")
+# STATIC_ROOT = os.path.join(BASE_DIR, "frontend/static")
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATIC_URL = "/static/"
 
 # Default primary key field type

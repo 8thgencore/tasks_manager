@@ -15,7 +15,7 @@ RUN apt-get update \
 
 # install dependencies
 RUN pip install --upgrade pip
-COPY ./requirements.txt .
+COPY ./backend/requirements.txt .
 RUN pip install -r requirements.txt
 
 # copy project
@@ -23,4 +23,4 @@ COPY . .
 
 EXPOSE 80
 
-CMD ["sh", "./runserver.sh"]
+CMD ["sh", "./backend/runserver.sh"]

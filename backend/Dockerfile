@@ -20,3 +20,7 @@ RUN pip install -r requirements.txt
 
 # copy project
 COPY . .
+
+EXPOSE 80
+
+CMD ["sh", "./runserver.sh"]

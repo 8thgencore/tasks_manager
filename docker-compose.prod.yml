@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   backend:
-    container_name: tasks_backend
+    container_name: tasks-backend
     build:
       context: ./backend
       dockerfile: Dockerfile.prod

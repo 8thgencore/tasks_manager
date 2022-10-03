@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   backend:
-    container_name: tasks_backend
+    container_name: tasks-backend
     build: ./backend
     command: python manage.py runserver 0.0.0.0:8000
     volumes:

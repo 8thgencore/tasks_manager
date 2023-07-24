@@ -34,7 +34,7 @@ DEBUG = env("DEBUG", default=True)
 
 ALLOWED_HOSTS = env("ALLOWED_HOSTS", default="").split(" ")
 
-CSRF_TRUSTED_ORIGINS = env("ALLOWED_HOSTS", default="").split(" ")
+CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS", default="").split(" ")
 
 # Application definition
 

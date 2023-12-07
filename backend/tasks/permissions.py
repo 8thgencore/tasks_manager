@@ -1,5 +1,3 @@
-from email import message
-
 from rest_framework import permissions
 
 from .models import Category
@@ -21,7 +19,7 @@ class TaskPermission(permissions.BasePermission):
             user_categories = Category.objects.filter(
                 created_by=request.user
             ).values_list("id", flat=True)
-            if not category in user_categories:
+            if category not in user_categories:
                 return False
 
         return True

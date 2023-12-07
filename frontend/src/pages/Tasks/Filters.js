@@ -232,4 +232,3 @@ export default function Filters({ onSubmit }) {
 Filters.propTypes = {
     onSubmit: PropTypes.func,
 };
-

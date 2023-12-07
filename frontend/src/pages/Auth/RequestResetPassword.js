@@ -91,7 +91,7 @@ export default function RequestResetPassword() {
                     sitekey={process.env.REACT_APP_GOOGLE_RECAPTCHA_SITEKEY}
                   />
                 </Box>
-              
+
                 <LoadingButton
                   disabled={!captchaRes}
                   loading={loading}
